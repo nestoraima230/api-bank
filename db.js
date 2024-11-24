@@ -2,32 +2,21 @@ const mysql = require('mysql2');
 const url = require('url');
 require('dotenv').config();
 
-// Crear pool de conexiones en lugar de una única conexión
+// Analizar la URL de la base de datos
 const dbUrl = url.parse(process.env.DATABASE_URL);
-const pool = mysql.createPool({
+
+const connection = mysql.createConnection({
   host: dbUrl.hostname,
-  user: dbUrl.auth.split(':')[0],
-  password: dbUrl.auth.split(':')[1],
-  database: dbUrl.pathname.split('/')[1],
-  port: dbUrl.port,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+  user: dbUrl.auth.split(':')[0],  // El nombre de usuario (antes de ':')
+  password: dbUrl.auth.split(':')[1],  // La contraseña (después de ':')
+  database: dbUrl.pathname.split('/')[1],  // El nombre de la base de datos (después de '/')
+  port: dbUrl.port // El puerto
 });
 
-// Convertir a promesas para mejor manejo de errores
-const promisePool = pool.promise();
-
-// Función para probar la conexión
-const testConnection = async () => {
-  try {
-    const [rows] = await promisePool.query('SELECT 1');
-    console.log('Database connection successful');
-    return true;
-  } catch (err) {
-    console.error('Database connection failed:', err);
-    return false;
+connection.connect((err) => {
+  if (err) {
+    console.error('Failed to connect to database:', err);
+    return;
   }
-};
-
-module.exports = { pool: promisePool, testConnection };
+  console.log('Successfully connected to the MySQL database');
+});
