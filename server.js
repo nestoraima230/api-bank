@@ -1,36 +1,24 @@
 const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const connection = require('./config/db'); 
+const db = require('.config/db'); 
 
 const app = express();
+const PORT = process.env.PORT || 3003;
 
-app.use(cors());
-app.use(bodyParser.json());
-
-app.get('/', (req, res) => {
-  res.send('Server is running');
-});
+app.use(express.json());
 
 // Endpoint de prueba
-app.get('/test-users', (req, res) => {
-  const query = 'SELECT * FROM Users'; 
-  console.log('Ejecutando consulta:', query); 
-
-  connection.query(query, (err, results) => {
-    if (err) {
-      console.error('Error en la consulta:', err);
-      return res.status(500).json({ error: 'Error al consultar la base de datos' });
-    }
-
-    console.log('Resultados de la consulta:', results); 
-    res.json(results); 
-  });
+app.get('/users', async (req, res) => {
+  console.log('Ejecutando consulta: SELECT * FROM Users');
+  try {
+    const [rows] = await db.query('SELECT * FROM Users'); 
+    console.log('Resultados de la consulta:', rows);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error en la consulta:', error.message);
+    res.status(500).json({ error: true, message: 'Error al obtener usuarios' });
+  }
 });
 
-
-
-const PORT = process.env.PORT || 3000;  
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
