@@ -4,14 +4,16 @@ const db = require('./config/db');
 const app = express();
 const PORT = process.env.PORT || 3003;
 
-// Middleware
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.status(200).send('Server is running');
+});
 // Endpoint
-app.get('/users', async (req, res) => {
+app.get('/test-user', async (req, res) => {
   console.log('Ejecutando consulta: SELECT * FROM Users');
   try {
-    const [rows] = await db.query('SELECT * FROM Users'); // Usamos async/await
+    const [rows] = await db.query('SELECT * FROM Users'); 
     console.log('Resultados de la consulta:', rows);
     res.status(200).json(rows);
   } catch (error) {
@@ -20,7 +22,6 @@ app.get('/users', async (req, res) => {
   }
 });
 
-// Servidor
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
