@@ -12,7 +12,7 @@ const verifyToken = (token) => {
     return jwt.verify(token, JWT_SECRET);
   } catch (err) {
     console.error('Error', err.message);
-    return null; // Retorna null si el token no es válido
+    return null; 
   }
 };
 
