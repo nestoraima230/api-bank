@@ -1,17 +1,36 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const dotenv = require('./config/dotenv');
- // const routes = require('./routes');
+const dotenv = require('dotenv');
 const db = require('./config/db'); 
+const authenticateToken  = require('./middlewares/authMiddleware');
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3003;
 
+// Usa los middlewares
 app.use(cors()); 
 app.use(express.json()); 
-app.use(morgan('dev')); 
+app.use(morgan('dev'));
 
+// Verifica que estás importando correctamente las rutas
+const authRoutes = require('./routes/authRoutes');
+app.use('/api/auth', authRoutes);  // Asegúrate de que esto no sea undefined
+
+// Asegúrate de que todas las rutas están bien importadas
+const protectedRoutes = require('./routes/protectedRoutes');
+app.use('/api/protected', authenticateToken, protectedRoutes);
+
+const transactionRoutes = require('./routes/transactionRoutes');
+app.use('/api/transaction', transactionRoutes);
+
+const cardRoutes = require('./routes/cardRoutes');
+app.use('/api/cards', cardRoutes);
+
+const paymentRoutes = require('./routes/paymentRoutes');
+app.use('/api/payments', paymentRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).send('Server is running');
@@ -23,7 +42,7 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ message: err.message || 'Internal Server Error' });
 });
 
+// Inicia el servidor
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
