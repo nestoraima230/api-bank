@@ -18,6 +18,7 @@ const userModel = {
     } else {
       throw new Error('No se ha recibido un mensaje de la base de datos');
     }
+
   },
 
   loginUser: async (email, password) => {

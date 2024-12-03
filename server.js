@@ -10,16 +10,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3003;
 
-// Usa los middlewares
+// Middlewares
 app.use(cors()); 
 app.use(express.json()); 
 app.use(morgan('dev'));
 
-// Verifica que estás importando correctamente las rutas
 const authRoutes = require('./routes/authRoutes');
-app.use('/api/auth', authRoutes);  // Asegúrate de que esto no sea undefined
+app.use('/api/auth', authRoutes);  
 
-// Asegúrate de que todas las rutas están bien importadas
 const protectedRoutes = require('./routes/protectedRoutes');
 app.use('/api/protected', authenticateToken, protectedRoutes);
 
