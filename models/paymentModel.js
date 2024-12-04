@@ -12,8 +12,9 @@ const PaymentModel = {
       ]);
 
       const [[{ message }]] = await db.execute('SELECT @message AS message');
-      if (message !== 'Pago procesado exitosamente') {
-        throw new Error(message);
+
+      if (!message || message !== 'Pago procesado exitosamente') {
+        throw new Error(message || 'Error desconocido al procesar el pago');
       }
 
       return { message };
