@@ -4,7 +4,7 @@ const CardController = {
 
   getAllCards: async (req, res) => {
     try {
-      const cards = await Card.getCardsByUserId();
+      const cards = await Card.getAllCards();
       res.status(200).json(cards);
     } catch (error) {
       res.status(500).json({ message: 'Error al obtener tarjetas', error });

@@ -30,6 +30,12 @@ app.use('/api/cards', cardRoutes);
 const paymentRoutes = require('./routes/paymentRoutes');
 app.use('/api/payments', paymentRoutes);
 
+const balanceRoutes = require('./routes/balanceRoutes');  
+app.use('/api/balance', balanceRoutes);
+
+const movementsRoutes = require('./routes/movementsRoutes');
+app.use('/api', movementsRoutes);
+
 app.get('/', (req, res) => {
   res.status(200).send('Server is running');
 });
