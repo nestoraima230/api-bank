@@ -1,4 +1,4 @@
-const movementModel = require('../models/movementModel');
+const movementModel = require('../models/movementsModel');
 
 const getMovements = async (req, res) => {
   const userId = req.user.id; 

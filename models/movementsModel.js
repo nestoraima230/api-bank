@@ -1,6 +1,5 @@
-const db = require('../config/db'); // Asegúrate de que tu archivo de conexión a la base de datos esté configurado correctamente
+const db = require('../config/db'); 
 
-// Obtener los movimientos de un usuario
 const getMovements = async (userId) => {
   try {
     const query = 'SELECT date, amount, type, description FROM Transactions WHERE user_id = ?';
@@ -11,7 +10,6 @@ const getMovements = async (userId) => {
   }
 };
 
-// Obtener movimientos filtrados por fecha y tipo
 const getFilteredMovements = async (userId, date, type) => {
   try {
     let query = 'SELECT date, amount, type, description FROM Transactions WHERE user_id = ?';
