@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const movementsController = require('../controllers/movementsController');
-const authenticate = require('../middlewares/authenticate'); 
+const authenticate = require('../middlewares/authMiddleware'); 
 
 
 router.get('/movements', authenticate, movementsController.getMovements);
