@@ -12,6 +12,7 @@ const getMovements = async (userId) => {
   }
 };
 
+// Esto necesita correcion
 const getFilteredMovements = async (userId, date, type) => {
   try {
     let query = 'SELECT transaction_id, transaction_date, amount, type, description, balance_after, related_user_id ' +
@@ -25,13 +26,25 @@ const getFilteredMovements = async (userId, date, type) => {
     }
 
     if (type && type !== 'all') {
-      query += ' AND transaction_type_id = ?';
-      params.push(type);
+      const typeMap = {
+        'income': 1,
+        'expense': 2
+      };
+
+      const transactionTypeId = typeMap[type];
+
+      if (transactionTypeId) {
+        query += ' AND transaction_type_id = ?';
+        params.push(transactionTypeId);
+      } else {
+        throw new Error('Tipo de transacción no válido');
+      }
     }
 
     const [movements] = await db.query(query, params);
     return movements;
   } catch (error) {
+    console.error("Error al obtener los movimientos filtrados:", error.message);  
     throw new Error('Error al obtener los movimientos filtrados');
   }
 };
