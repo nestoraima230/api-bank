@@ -13,13 +13,15 @@ const cardModel = {
     },
 
     createCard: async (cardData) => {
-        const { user_id, card_number, expiration_date, cvv } = cardData;
-        if (!user_id || !card_number || !expiration_date || !cvv) {
+        const { user_id, card_number, expiration_date, cvv, account_id, card_type_id } = cardData;
+
+        if (!user_id || !card_number || !expiration_date || !cvv || !account_id || !card_type_id) {
             throw new Error('Todos los campos son obligatorios');
         }
+
         const [result] = await db.query(
-            'INSERT INTO Cards (user_id, card_number, expiration_date, cvv) VALUES (?, ?, ?, ?)',
-            [user_id, card_number, expiration_date, cvv]
+            'INSERT INTO Cards (user_id, card_number, expiration_date, cvv, account_id, card_type_id) VALUES (?, ?, ?, ?, ?, ?)',
+            [user_id, card_number, expiration_date, cvv, account_id, card_type_id]
         );
         return result.insertId;
     },

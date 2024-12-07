@@ -25,13 +25,13 @@ const CardController = {
 
     createCard: async (req, res) => {
         try {
-            const { user_id, card_number, expiration_date, cvv } = req.body;
+            const { user_id, card_number, expiration_date, cvv, account_id, card_type_id } = req.body;
 
-            if (!user_id || !card_number || !expiration_date || !cvv) {
+            if (!user_id || !card_number || !expiration_date || !cvv || !account_id || !card_type_id) {
                 return res.status(400).json({ message: 'Todos los campos son obligatorios' });
             }
 
-            const cardId = await Card.createCard({ user_id, card_number, expiration_date, cvv });
+            const cardId = await Card.createCard({ user_id, card_number, expiration_date, cvv, account_id, card_type_id });
             res.status(201).json({ message: 'Tarjeta creada exitosamente', cardId });
         } catch (error) {
             res.status(500).json({ message: 'Error al crear la tarjeta', error: error.message });
