@@ -13,7 +13,7 @@ const getMovements = async (req, res) => {
 };
 
 const getFilteredMovements = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user.id; 
   const { date, type } = req.query; 
 
   try {
