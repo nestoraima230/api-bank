@@ -1,6 +1,3 @@
-const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET;
-
 const authenticateToken = (req, res, next) => {
   const token = req.headers['authorization']?.split(' ')[1];
 
@@ -13,9 +10,8 @@ const authenticateToken = (req, res, next) => {
       return res.status(403).json({ message: 'Token inválido o expirado' });
     }
 
-    req.user = decoded;  
-    next();  
+    req.user = decoded;
+    console.log('Usuario autenticado:', req.user);  // Verifica si el usuario está siendo asignado correctamente
+    next();
   });
 };
-
-module.exports = authenticateToken;
