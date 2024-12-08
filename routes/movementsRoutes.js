@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const movementsController = require('../controllers/movementsController');
-const authenticate = require('../middlewares/authMiddleware'); 
+const authenticate = require('../middlewares/authMiddleware');
 
 console.log('Movements routes cargadas.');
 

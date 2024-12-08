@@ -18,14 +18,14 @@ const getFilteredMovements = async (req, res) => {
   const { date, type } = req.query;
   const userId = req.user.id;
 
-  console.log('Parametros recibidos:', { userId, date, type });
+  console.log('Parámetros recibidos:', { userId, date, type });
 
   try {
     const movements = await movementModel.getFilteredMovements(userId, date, type);
     console.log('Movimientos filtrados obtenidos:', movements);
     res.json(movements);
   } catch (error) {
-    console.error('Error en el backend:', error.message);
+    console.error('Error al obtener los movimientos filtrados:', error.message);
     res.status(500).json({ message: 'Error al obtener los movimientos filtrados' });
   }
 };

@@ -34,7 +34,7 @@ const balanceRoutes = require('./routes/balanceRoutes');
 app.use('/api/balance', balanceRoutes);
 
 const movementsRoutes = require('./routes/movementsRoutes');
-app.use('/api/movements', movementsRoutes);
+app.use('/api', movementsRoutes);
 console.log('Rutas de movimientos registradas en /api/movements');
 
 
