@@ -1,7 +1,7 @@
 const movementModel = require('../models/movementsModel');
 
 const getMovements = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user.userId; 
   console.log('Obteniendo movimientos para userId:', userId);
 
   try {
@@ -16,7 +16,7 @@ const getMovements = async (req, res) => {
 
 const getFilteredMovements = async (req, res) => {
   const { date, type } = req.query;
-  const userId = req.user.id;
+  const userId = req.user.userId;
 
   console.log('Parámetros recibidos:', { userId, date, type });
 
@@ -25,12 +25,12 @@ const getFilteredMovements = async (req, res) => {
     console.log('Movimientos filtrados obtenidos:', movements);
     res.json(movements);
   } catch (error) {
-    console.error('Error al obtener los movimientos filtrados:', error.message);
+    console.error('Error en el backend:', error.message);
     res.status(500).json({ message: 'Error al obtener los movimientos filtrados' });
   }
 };
 
 module.exports = {
   getMovements,
-  getFilteredMovements
+  getFilteredMovements,
 };

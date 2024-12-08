@@ -33,7 +33,7 @@ const getFilteredMovements = async (userId, date, type) => {
     if (type && type !== 'all') {
       query += 'AND transaction_type_id = ? ';
       const typeMap = { income: 1, expense: 2, transfer: 3 };
-      const transactionTypeId = typeMap[type];
+      const transactionTypeId = typeMap[type.toLowerCase()];
       if (transactionTypeId) {
         params.push(transactionTypeId);
       } else {
@@ -53,5 +53,5 @@ const getFilteredMovements = async (userId, date, type) => {
 
 module.exports = {
   getMovements,
-  getFilteredMovements
+  getFilteredMovements,
 };
