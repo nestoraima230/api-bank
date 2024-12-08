@@ -35,6 +35,7 @@ app.use('/api/balance', balanceRoutes);
 
 const movementsRoutes = require('./routes/movementsRoutes');
 app.use('/api/movements', movementsRoutes);
+console.log('Rutas de movimientos registradas en /api/movements');
 
 app.get('/', (req, res) => {
   res.status(200).send('Server is running');
