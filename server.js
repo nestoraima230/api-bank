@@ -34,7 +34,7 @@ const balanceRoutes = require('./routes/balanceRoutes');
 app.use('/api/balance', balanceRoutes);
 
 const movementsRoutes = require('./routes/movementsRoutes');
-app.use('/api', movementsRoutes);
+app.use('/api/movements', movementsRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).send('Server is running');

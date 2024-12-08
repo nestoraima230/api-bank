@@ -12,7 +12,6 @@ const getMovements = async (userId) => {
   }
 };
 
-// Esto necesita correcion
 const getFilteredMovements = async (userId, date, type) => {
   try {
     let query = 'SELECT transaction_id, transaction_date, amount, transaction_type_id, description, balance_after, related_user_id ' +
