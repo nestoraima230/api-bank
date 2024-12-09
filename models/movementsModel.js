@@ -26,12 +26,12 @@ const getFilteredMovements = async (userId, date, type) => {
     const params = [userId];
 
     if (date) {
-      query += 'AND DATE(transaction_date) = ? ';
+      query += ' AND DATE(transaction_date) = ? '; 
       params.push(date);
     }
 
     if (type && type !== 'all') {
-      query += 'AND transaction_type_id = ? ';
+      query += ' AND transaction_type_id = ? ';  
       const typeMap = { income: 1, expense: 2, transfer: 3 };
       const transactionTypeId = typeMap[type.toLowerCase()];
       if (transactionTypeId) {
