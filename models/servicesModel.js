@@ -1,26 +1,45 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../config/db');  // Asegúrate de tener configurada la conexión de Sequelize
+// models/servicesModel.js
 
-const Service = sequelize.define('Service', {
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  description: {
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-  price: {
-    type: DataTypes.FLOAT,
-    allowNull: false
-  },
-  type: {
-    type: DataTypes.STRING,
-    allowNull: false
-  }
-}, {
-  tableName: 'services',  // Define el nombre de la tabla
-  timestamps: false  // Si no necesitas timestamps
-});
+const pool = require('../config/db');
 
-module.exports = Service;
+// Función para obtener todos los servicios
+const getAllServices = async () => {
+  const [rows] = await pool.query('SELECT * FROM services');
+  return rows;
+};
+
+// Función para obtener un servicio por su ID
+const getServiceById = async (id) => {
+  const [rows] = await pool.query('SELECT * FROM services WHERE id = ?', [id]);
+  return rows[0];
+};
+
+// Función para crear un nuevo servicio
+const createService = async (name, description, price, type) => {
+  const [result] = await pool.query(
+    'INSERT INTO services (name, description, price, type) VALUES (?, ?, ?, ?)',
+    [name, description, price, type]
+  );
+  return result.insertId;  // Devuelve el ID del nuevo servicio
+};
+
+// Función para actualizar un servicio
+const updateService = async (id, name, description, price, type) => {
+  await pool.query(
+    'UPDATE services SET name = ?, description = ?, price = ?, type = ? WHERE id = ?',
+    [name, description, price, type, id]
+  );
+};
+
+// Función para eliminar un servicio
+const deleteService = async (id) => {
+  await pool.query('DELETE FROM services WHERE id = ?', [id]);
+};
+
+module.exports = {
+  getAllServices,
+  getServiceById,
+  createService,
+  updateService,
+  deleteService,
+};

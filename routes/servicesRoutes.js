@@ -1,11 +1,22 @@
+// routes/servicesRoutes.js
+
 const express = require('express');
 const router = express.Router();
-const serviceController = require('../controllers/servicesController');
+const servicesController = require('../controllers/servicesController');
 
-// Ruta para obtener todos los servicios
-router.get('/', serviceController.getAllServices);
+// Obtener todos los servicios
+router.get('/', servicesController.getAllServices);
 
-// Ruta para obtener un servicio específico por ID
-router.get('/:id', serviceController.getServiceById);
+// Obtener un servicio por ID
+router.get('/:id', servicesController.getServiceById);
+
+// Crear un nuevo servicio
+router.post('/', servicesController.createService);
+
+// Actualizar un servicio
+router.put('/:id', servicesController.updateService);
+
+// Eliminar un servicio
+router.delete('/:id', servicesController.deleteService);
 
 module.exports = router;
