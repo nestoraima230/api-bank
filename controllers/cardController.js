@@ -14,7 +14,7 @@ const CardController = {
     // Obtener tarjetas por el ID del usuario
     getCardsByUserId: async (req, res) => {
         try {
-            const { userId } = req.params;
+            const { userId } = req.params; // Usar el ID del usuario en la URL
             if (!userId) {
                 return res.status(400).json({ message: 'ID de usuario es obligatorio' });
             }

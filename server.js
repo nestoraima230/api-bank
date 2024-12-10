@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 const authRoutes = require('./routes/authRoutes');
-app.use('/api/auth', authRoutes);  
+app.use('/api/auth', authRoutes);
 
 const protectedRoutes = require('./routes/protectedRoutes');
 app.use('/api/protected', authenticateToken, protectedRoutes);
@@ -25,7 +25,7 @@ const transactionRoutes = require('./routes/transactionRoutes');
 app.use('/api/transaction', transactionRoutes);
 
 const cardRoutes = require('./routes/cardRoutes');
-app.use('/api/cards', cardRoutes);
+app.use('/api/cards', cardRoutes);  // Registro de rutas de tarjetas
 
 const paymentRoutes = require('./routes/paymentRoutes');
 app.use('/api/payments', paymentRoutes);
@@ -35,7 +35,6 @@ app.use('/api/balance', balanceRoutes);
 
 const movementsRoutes = require('./routes/movementsRoutes');
 app.use('/api', movementsRoutes);
-console.log('Rutas de movimientos registradas en /api/movements');
 
 const servicesRoutes = require('./routes/servicesRoutes');
 app.use('/api/services', servicesRoutes);
