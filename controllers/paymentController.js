@@ -14,10 +14,14 @@ const paymentController = {
     }
 
     try {
+      // Llamar a la función makePayment del modelo
       const result = await PaymentModel.makePayment(userId, paymentMethodId, amount, description, cardId || null, serviceId || null);
+      // Responder con el mensaje de éxito
       return res.status(200).json(result);
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      // Manejo de errores con un mensaje claro
+      console.error('Error en el controlador de pagos:', error);
+      return res.status(500).json({ error: error.message || 'Error interno al procesar el pago' });
     }
   },
 };

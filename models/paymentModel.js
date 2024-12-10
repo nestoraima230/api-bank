@@ -39,7 +39,7 @@ const PaymentModel = {
 
       return { message };
     } catch (error) {
-      console.error(error); // Puede ser útil para debuggear
+      console.error('Error al realizar el pago:', error); // Puedes usar esto para depurar
       throw new Error(error.message || 'Error al procesar el pago');
     }
   },
