@@ -37,6 +37,9 @@ const movementsRoutes = require('./routes/movementsRoutes');
 app.use('/api', movementsRoutes);
 console.log('Rutas de movimientos registradas en /api/movements');
 
+const serviceRoutes = require('./routes/serviceRoutes'); // Importar las rutas de servicios
+app.use('/api/services', serviceRoutes);  // Registrar la ruta para servicios
+console.log('Rutas de servicios registradas en /api/services');
 
 app.get('/', (req, res) => {
   res.status(200).send('Server is running');
