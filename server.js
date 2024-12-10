@@ -25,7 +25,7 @@ const transactionRoutes = require('./routes/transactionRoutes');
 app.use('/api/transaction', transactionRoutes);
 
 const cardRoutes = require('./routes/cardRoutes');
-app.use('/api/cards', cardRoutes);  // Registro de rutas de tarjetas
+app.use('/api/cards', cardRoutes);
 
 const paymentRoutes = require('./routes/paymentRoutes');
 app.use('/api/payments', paymentRoutes);
