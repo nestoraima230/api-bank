@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const CardController = require('../controllers/cardController');
 
-router.get('/', CardController.getAllCards);
+router.get('/:userId', CardController.getAllCards);
 
-router.get('/:userId', CardController.getCardById);
+router.get('/:id', CardController.getCardById);
 
 router.post('/', CardController.createCard);
 

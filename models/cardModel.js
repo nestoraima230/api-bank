@@ -1,6 +1,6 @@
 const db = require('../config/db');
 
-const cardModel = {
+const Card = {
     getCardById: async (cardId) => {
         const [rows] = await db.query('SELECT * FROM Cards WHERE user_id = ?', [cardId]);
         return rows[0];
@@ -31,7 +31,21 @@ const cardModel = {
             throw new Error('No se encontraron tarjetas para este usuario');
         }
         return rows;
+    },
+
+    // Método para crear una tarjeta
+    createCard: async (cardData) => {
+        const { user_id, card_number, expiration_date, cvv, account_id, card_type_id } = cardData;
+        const [result] = await db.query(
+            'INSERT INTO Cards (user_id, card_number, expiration_date, cvv, account_id, card_type_id) VALUES (?, ?, ?, ?, ?, ?)',
+            [user_id, card_number, expiration_date, cvv, account_id, card_type_id]
+        );
+        return result.insertId;
+    },
+
+    deleteCard: async (cardId) => {
+        await db.query('DELETE FROM Cards WHERE id = ?', [cardId]);
     }
 };
 
-module.exports = cardModel;
+module.exports = Card;

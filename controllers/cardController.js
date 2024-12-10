@@ -3,7 +3,8 @@ const Card = require('../models/cardModel');
 const CardController = {
     getAllCards: async (req, res) => {
         try {
-            const cards = await Card.getAllCards();
+            const userId = req.params.userId;
+            const cards = await Card.getAllCards(userId);
             res.status(200).json(cards);
         } catch (error) {
             res.status(500).json({ message: 'Error al obtener las tarjetas', error: error.message });
@@ -12,14 +13,14 @@ const CardController = {
 
     getCardById: async (req, res) => {
         try {
-            const { userId } = req.params;
-            if (!userId) {
-                return res.status(400).json({ message: 'ID de usuario es obligatorio' });
+            const { id } = req.params;
+            if (!id) {
+                return res.status(400).json({ message: 'ID de tarjeta es obligatorio' });
             }
-            const cards = await Card.getCardById(userId);
-            res.status(200).json(cards);
+            const card = await Card.getCardById(id);
+            res.status(200).json(card);
         } catch (error) {
-            res.status(500).json({ message: 'Error al obtener las tarjetas del usuario', error: error.message });
+            res.status(500).json({ message: 'Error al obtener la tarjeta', error: error.message });
         }
     },
 
@@ -60,7 +61,7 @@ const CardController = {
                 return res.status(400).json({ message: 'ID de tarjeta es obligatorio' });
             }
 
-            const balance = await cardModel.getBalance(id);
+            const balance = await Card.getBalance(id);
             res.status(200).json({ balance });
         } catch (error) {
             res.status(500).json({ message: 'Error al obtener el saldo', error: error.message });
@@ -80,7 +81,7 @@ const CardController = {
                 return res.status(400).json({ message: 'El monto debe ser mayor a cero' });
             }
 
-            await cardModel.addBalance(id, amount);
+            await Card.addBalance(id, amount);
             res.status(200).json({ message: 'Saldo agregado exitosamente' });
         } catch (error) {
             res.status(500).json({ message: 'Error al agregar saldo', error: error.message });
