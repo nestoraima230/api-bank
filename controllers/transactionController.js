@@ -4,13 +4,16 @@ const transactionController = {
   transferMoney: async (req, res) => {
     const { senderEmail, receiverEmail, amount, description } = req.body;
     try {
-      const result = await TransactionModel.transferMoney(
+      // Llamamos a la función de transferencia y obtenemos el mensaje
+      const message = await TransactionModel.transferMoney(
         senderEmail,
         receiverEmail,
         amount,
         description
       );
-      res.status(200).json({ message: 'Transferencia realizada exitosamente', result });
+
+      // Respondemos con el mensaje de éxito o error
+      res.status(200).json({ message }); // 'message' es el resultado de la transferencia
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
