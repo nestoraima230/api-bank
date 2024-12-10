@@ -3,17 +3,17 @@ const Card = require('../models/cardModel');
 const CardController = {
     getAllCards: async (req, res) => {
         try {
-            const userId = req.params.userId;
+            const userId = req.params.userId;  // Asegúrate de que estés obteniendo el parámetro correcto
             const cards = await Card.getAllCards(userId);
             res.status(200).json(cards);
         } catch (error) {
             res.status(500).json({ message: 'Error al obtener las tarjetas', error: error.message });
         }
     },
-
+    
     getCardById: async (req, res) => {
         try {
-            const { id } = req.params;
+            const { id } = req.params;  // Se espera que el parámetro sea `id`
             if (!id) {
                 return res.status(400).json({ message: 'ID de tarjeta es obligatorio' });
             }
@@ -23,6 +23,7 @@ const CardController = {
             res.status(500).json({ message: 'Error al obtener la tarjeta', error: error.message });
         }
     },
+    
 
     createCard: async (req, res) => {
         try {
