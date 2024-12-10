@@ -1,6 +1,7 @@
 const Card = require('../models/cardModel');
 
 const CardController = {
+    // Obtener todas las tarjetas
     getAllCards: async (req, res) => {
         try {
             const cards = await Card.getAllCards();
@@ -10,19 +11,25 @@ const CardController = {
         }
     },
 
+    // Obtener tarjetas por el ID del usuario
     getCardsByUserId: async (req, res) => {
         try {
             const { userId } = req.params;
             if (!userId) {
                 return res.status(400).json({ message: 'ID de usuario es obligatorio' });
             }
+
             const cards = await Card.getCardsByUserId(userId);
+            if (cards.length === 0) {
+                return res.status(404).json({ message: 'No se encontraron tarjetas para este usuario' });
+            }
             res.status(200).json(cards);
         } catch (error) {
             res.status(500).json({ message: 'Error al obtener las tarjetas del usuario', error: error.message });
         }
     },
 
+    // Crear una tarjeta
     createCard: async (req, res) => {
         try {
             const { user_id, card_number, expiration_date, cvv, account_id, card_type_id } = req.body;
@@ -38,6 +45,7 @@ const CardController = {
         }
     },
 
+    // Eliminar tarjeta
     deleteCard: async (req, res) => {
         try {
             const { id } = req.params;
@@ -53,7 +61,7 @@ const CardController = {
         }
     },
 
-    // Obtener el saldo de la tarjeta
+    // Obtener saldo de la tarjeta
     getBalance: async (req, res) => {
         try {
             const { cardId } = req.params;
@@ -67,7 +75,7 @@ const CardController = {
         }
     },
 
-    // Actualizar el saldo de la tarjeta
+    // Actualizar saldo de la tarjeta
     updateBalance: async (req, res) => {
         try {
             const { cardId } = req.params;

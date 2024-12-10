@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const CardController = require('../controllers/cardController');
 
-// Rutas existentes...
+// Rutas existentes
 router.get('/cards', CardController.getAllCards);
-router.get('/cards/user/:userId', CardController.getCardsByUserId);
+router.get('/cards/user/:userId', CardController.getCardsByUserId); // Esta ruta es la clave.
 router.post('/cards', CardController.createCard);
 router.delete('/cards/:id', CardController.deleteCard);
 
