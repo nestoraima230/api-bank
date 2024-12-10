@@ -4,7 +4,7 @@ const CardController = require('../controllers/cardController');
 
 router.get('/', CardController.getAllCards);
 
-router.get('/:userId', CardController.getCardsByUserId);
+router.get('/:userId', CardController.getCardById);
 
 router.post('/', CardController.createCard);
 
