@@ -10,13 +10,13 @@ const CardController = {
         }
     },
 
-    getCardsByUserId: async (req, res) => {
+    getCardById: async (req, res) => {
         try {
             const { userId } = req.params;
             if (!userId) {
                 return res.status(400).json({ message: 'ID de usuario es obligatorio' });
             }
-            const cards = await Card.getCardsByUserId(userId);
+            const cards = await Card.getCardById(userId);
             res.status(200).json(cards);
         } catch (error) {
             res.status(500).json({ message: 'Error al obtener las tarjetas del usuario', error: error.message });
