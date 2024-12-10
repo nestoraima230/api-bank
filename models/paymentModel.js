@@ -10,6 +10,7 @@ const PaymentModel = {
     }
 
     try {
+      // Llamada al procedimiento almacenado para procesar el pago
       const [rows] = await pool.execute('CALL MAKE_PAYMENT(?, ?, ?, ?, ?, ?, @message)', [
         userId,
         paymentMethodId,
