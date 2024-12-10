@@ -1,35 +1,28 @@
 const db = require('../config/db');
 
 const cardModel = {
-    getAllCards: async () => {
-        const [rows] = await db.query('SELECT * FROM Cards');
-        return rows;
+    getCardById: async (cardId) => {
+        const [rows] = await db.query('SELECT * FROM Cards WHERE id = ?', [cardId]);
+        return rows[0];
     },
 
-    getCardsByUserId: async (userId) => {
-        if (!userId) throw new Error('Se requiere un ID de usuario válido');
-        const [rows] = await db.query('SELECT * FROM Cards WHERE user_id = ?', [userId]);
-        return rows;
-    },
-
-    createCard: async (cardData) => {
-        const { user_id, card_number, expiration_date, cvv, account_id, card_type_id } = cardData;
-
-        if (!user_id || !card_number || !expiration_date || !cvv || !account_id || !card_type_id) {
-            throw new Error('Todos los campos son obligatorios');
+    getBalance: async (cardId) => {
+        const [rows] = await db.query('SELECT balance FROM Cards WHERE id = ?', [cardId]);
+        if (rows.length === 0) {
+            throw new Error('Tarjeta no encontrada');
         }
+        return rows[0].balance;
+    },
 
+    addBalance: async (cardId, amount) => {
         const [result] = await db.query(
-            'INSERT INTO Cards (user_id, card_number, expiration_date, cvv, account_id, card_type_id) VALUES (?, ?, ?, ?, ?, ?)',
-            [user_id, card_number, expiration_date, cvv, account_id, card_type_id]
+            'UPDATE Cards SET balance = balance + ? WHERE id = ?',
+            [amount, cardId]
         );
-        return result.insertId;
-    },
-
-    deleteCard: async (id) => {
-        if (!id) throw new Error('Se requiere un ID de tarjeta válido');
-        await db.query('DELETE FROM Cards WHERE id = ?', [id]);
-    },
+        if (result.affectedRows === 0) {
+            throw new Error('No se pudo actualizar el saldo. Tarjeta no encontrada.');
+        }
+    }
 };
 
 module.exports = cardModel;
