@@ -52,6 +52,37 @@ const CardController = {
             res.status(500).json({ message: 'Error al eliminar la tarjeta', error: error.message });
         }
     },
+
+    // Obtener el saldo de la tarjeta
+    getBalance: async (req, res) => {
+        try {
+            const { cardId } = req.params;
+            if (!cardId) {
+                return res.status(400).json({ message: 'ID de tarjeta es obligatorio' });
+            }
+            const balance = await Card.getBalanceByCardId(cardId);
+            res.status(200).json({ balance });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al obtener el saldo de la tarjeta', error: error.message });
+        }
+    },
+
+    // Actualizar el saldo de la tarjeta
+    updateBalance: async (req, res) => {
+        try {
+            const { cardId } = req.params;
+            const { amount } = req.body;
+
+            if (!amount) {
+                return res.status(400).json({ message: 'El monto es obligatorio' });
+            }
+
+            const result = await Card.updateBalanceByCardId(cardId, amount);
+            res.status(200).json({ message: 'Saldo actualizado correctamente' });
+        } catch (error) {
+            res.status(500).json({ message: 'Error al actualizar el saldo', error: error.message });
+        }
+    },
 };
 
 module.exports = CardController;

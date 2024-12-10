@@ -30,6 +30,40 @@ const cardModel = {
         if (!id) throw new Error('Se requiere un ID de tarjeta válido');
         await db.query('DELETE FROM Cards WHERE id = ?', [id]);
     },
+
+    // Obtener el saldo de la tarjeta
+    getBalanceByCardId: async (cardId) => {
+        if (!cardId) throw new Error('Se requiere un ID de tarjeta válido');
+
+        const [rows] = await db.query(
+            `SELECT a.balance
+             FROM Accounts a
+             JOIN Cards c ON a.account_id = c.account_id
+             WHERE c.card_id = ?`, [cardId]
+        );
+        if (rows.length === 0) {
+            throw new Error('Saldo no encontrado para la tarjeta');
+        }
+        return rows[0].balance;
+    },
+
+    // Actualizar el saldo de la tarjeta
+    updateBalanceByCardId: async (cardId, amount) => {
+        if (!cardId || amount === undefined) {
+            throw new Error('Se requieren un ID de tarjeta y un monto');
+        }
+
+        const [rows] = await db.query(
+            `UPDATE Accounts a
+             JOIN Cards c ON a.account_id = c.account_id
+             SET a.balance = a.balance + ?
+             WHERE c.card_id = ?`, [amount, cardId]
+        );
+        if (rows.affectedRows === 0) {
+            throw new Error('No se pudo actualizar el saldo');
+        }
+        return rows;
+    },
 };
 
 module.exports = cardModel;
