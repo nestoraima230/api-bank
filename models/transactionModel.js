@@ -5,7 +5,7 @@ const TransactionModel = {
     try {
       // Llamada a la función TRANSFER_MONEY, incluyendo el parámetro de salida p_message
       const [rows] = await db.execute(
-        'CALL TRANSFER_MONEY(?, ?, ?, ?, @message)', // Modificación aquí para incluir @message
+        'CALL TRANSFER_MONEY(?, ?, ?, ?)', // Modificación aquí para incluir @message
         [senderEmail, receiverEmail, amount, description]
       );
 
