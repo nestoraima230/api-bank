@@ -22,6 +22,15 @@ const cardModel = {
         if (result.affectedRows === 0) {
             throw new Error('No se pudo actualizar el saldo. Tarjeta no encontrada.');
         }
+    },
+
+    // Nuevo método para obtener todas las tarjetas de un usuario
+    getAllCards: async (userId) => {
+        const [rows] = await db.query('SELECT * FROM Cards WHERE user_id = ?', [userId]);
+        if (rows.length === 0) {
+            throw new Error('No se encontraron tarjetas para este usuario');
+        }
+        return rows;
     }
 };
 
