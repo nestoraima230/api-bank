@@ -1,8 +1,7 @@
-const db = require('../config/db');
+const pool = require('../config/db');  // Conexión a la base de datos
 
 const PaymentModel = {
   makePayment: async (userId, paymentMethodId, amount, description, cardId = null, serviceId = null) => {
-    // Validación de los parámetros
     if (!userId || !paymentMethodId || !amount || !description) {
       throw new Error('Faltan datos obligatorios');
     }
@@ -10,17 +9,8 @@ const PaymentModel = {
       throw new Error('El monto debe ser mayor que cero');
     }
 
-    // Validar cardId y serviceId como números
-    if (cardId && isNaN(cardId)) {
-      throw new Error('El cardId debe ser un número válido');
-    }
-    if (serviceId && isNaN(serviceId)) {
-      throw new Error('El serviceId debe ser un número válido');
-    }
-
     try {
-      // Llamada al procedimiento almacenado
-      const [rows] = await db.execute('CALL MAKE_PAYMENT(?, ?, ?, ?, ?, ?, @message)', [
+      const [rows] = await pool.execute('CALL MAKE_PAYMENT(?, ?, ?, ?, ?, ?, @message)', [
         userId,
         paymentMethodId,
         amount,
@@ -29,17 +19,15 @@ const PaymentModel = {
         serviceId,
       ]);
 
-      // Obtener el mensaje de respuesta del procedimiento
-      const [[{ message }]] = await db.execute('SELECT @message AS message');
+      const [[{ message }]] = await pool.execute('SELECT @message AS message');
 
-      // Verificación del mensaje de éxito
       if (!message || message !== 'Pago procesado exitosamente') {
         throw new Error(message || 'Error desconocido al procesar el pago');
       }
 
       return { message };
     } catch (error) {
-      console.error('Error al realizar el pago:', error); // Puedes usar esto para depurar
+      console.error(error);  // Puede ser útil para debuggear
       throw new Error(error.message || 'Error al procesar el pago');
     }
   },
