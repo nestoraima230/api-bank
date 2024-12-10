@@ -2,12 +2,12 @@ const db = require('../config/db');
 
 const cardModel = {
     getCardById: async (cardId) => {
-        const [rows] = await db.query('SELECT * FROM Cards WHERE id = ?', [cardId]);
+        const [rows] = await db.query('SELECT * FROM Cards WHERE user_id = ?', [cardId]);
         return rows[0];
     },
 
     getBalance: async (cardId) => {
-        const [rows] = await db.query('SELECT balance FROM Cards WHERE id = ?', [cardId]);
+        const [rows] = await db.query('SELECT balance FROM Cards WHERE user_id = ?', [cardId]);
         if (rows.length === 0) {
             throw new Error('Tarjeta no encontrada');
         }
@@ -16,7 +16,7 @@ const cardModel = {
 
     addBalance: async (cardId, amount) => {
         const [result] = await db.query(
-            'UPDATE Cards SET balance = balance + ? WHERE id = ?',
+            'UPDATE Cards SET balance = balance + ? WHERE user_id = ?',
             [amount, cardId]
         );
         if (result.affectedRows === 0) {
